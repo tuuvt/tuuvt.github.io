@@ -1,0 +1,7 @@
+body{background-color:#181214; color:#E6C0B6; font-family: sans-serif}
+div.main{width:700px; margin:auto; max-width:90%;}
+
+p{font-size:22px;}
+img.full{display:block; margin:auto; max-width:100%; height:auto;}
+
+hr{border-color:#E6C0B6}
