@@ -3,5 +3,7 @@ div.main{width:700px; margin:auto; max-width:90%;}
 
 p{font-size:22px;}
 .full{display:block; margin:auto; max-width:100%; height:auto;}
+h1{color:F4A4AE; text-align: center; font-size:72; font-family:"comic sans MS"}
+a{color:F4A4AE}
 
 hr{border-color:#E6C0B6}

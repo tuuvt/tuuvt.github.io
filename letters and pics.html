@@ -1,0 +1,61 @@
+<HTML>
+<head>
+<title> Letters and pics </title>
+<link rel="stylesheet" type="text/css" href="style/mainstyle.css">
+</head>
+
+<body>
+
+<h1>Letters and pics</h1>
+
+<div class="main">
+	<p> 
+	<br> Answer goes here: (1 word, five letters) <input type="text" name="enter" class="enter" value="" id="response"/>
+    <input type="button" value="click" OnClick="ok()" id="Confirm"/>
+	</p>
+</div>
+	<img src="img/picturesandletters.jpg" class="full">
+	
+
+
+
+
+<script type="text/javascript">
+var input = document.getElementById('response');
+	input.addEventListener("keyup", function(event) {
+	if (event.keyCode === 13) 
+		{
+		event.preventDefault();
+		document.getElementById("Confirm").click();
+		}
+	});
+	
+String.prototype.hashCode = function(){
+		var hash = 0;
+		if (this.length == 0) return hash;
+		for (i = 0; i < this.length; i++) {
+			char = this.charCodeAt(i);
+			hash = ((hash<<5)-hash)+char;
+			hash = hash & hash; // Convert to 32bit integer
+		}
+		return hash;
+	}
+	
+function ok(){
+	var answer = document.getElementById('response').value;
+	answer = answer.toLowerCase();
+	if(answer.hashCode() == 141220721)
+		{
+		window.location.href = "./".concat(answer,".html")
+		}
+	else
+		{
+		alert(answer.hashCode())
+		}
+	}
+</script>
+	
+
+</body>
+
+</HTML>

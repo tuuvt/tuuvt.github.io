@@ -1,0 +1,52 @@
+<HTML>
+<head>
+<title> Scrabble </title>
+<link rel="stylesheet" type="text/css" href="style/mainstyle.css">
+</head>
+
+<body>
+
+<h1>Scrabble</h1>
+
+<div style="width:140px; margin:auto">
+	<p> 
+	<input type="button" value="1" OnClick="wrt(1)"/>
+	<input type="button" value="2" OnClick="wrt(2)"/>
+	<input type="button" value="3" OnClick="wrt(3)"/><br>
+	<input type="button" value="4" OnClick="wrt(4)"/>
+	<input type="button" value="5" OnClick="wrt(5)"/>
+	<input type="button" value="6" OnClick="wrt(6)"/><br>
+	<input type="button" value="7" OnClick="wrt(7)"/>
+	<input type="button" value="8" OnClick="wrt(8)"/>
+	<input type="button" value="9" OnClick="wrt(9)"/>
+	<input type="button" value="<" OnClick="wrt(0)"/>
+    </p>
+	<p id = "num" style="border:2px solid #E6C0B6; height: 26px; width:70px; padding:2px;"></p>
+	<input type="button" value="==>" OnClick="ok()"/>
+	
+</div>
+	<img src="img/scrabble.jpg" class="full">
+	
+
+<script>
+	document.getElementById("num").innerHTML = "";
+	
+	function wrt(n){
+	field = document.getElementById("num");
+	var answer = field.innerHTML;
+	if (n == 0){
+		answer = answer.slice(0,-1);
+		}
+	else{
+		if (answer.length<5){
+		answer = answer.concat(n)	}
+		}
+	field.innerHTML=answer;
+	}
+	
+</script>
+	
+
+</body>
+
+</HTML>
