@@ -1,53 +1,8 @@
 <html>
-<head> <title>Flight Rising Encounter Counter</title> </head>
-
 <body>
+<a href="flight_rising"> Flight Rising encounter counter </a>
 
-<script>
-var greencount = 0;
-var usefulgreencount = 0;
-const greenstring = "Number of times green has been clicked: ";
-const usefulgreenstring = "Number of times colour has been changed to green successfully: ";
 
-function update_green_counters() {
-	document.getElementById("greencounter").innerHTML = greenstring + greencount.toString();
-	document.getElementById("usefulgreencounter").innerHTML = usefulgreenstring + usefulgreencount.toString();
-}
-
-function change_green(){
-	var greentext = document.getElementById("demo");
-	
-	greencount+=1;
-	if (greentext.style.color != "green") {usefulgreencount+=1}
-	
-	greentext.style.color = "green"; 
-	update_green_counters()
-}
-</script>
-<br><br>
-<div style="width:50%; margin:auto; border-style:solid; border-width:1px; padding:40px">
-<p id="demo"> hi </p>
-
-<button onclick=
-'
-document.getElementById("demo").innerHTML = "Hello JavaScript!"; 
-const listf = document.getElementsByClassName("hidden");
-for (let i = 0; i < listf.length; i++) {
-  listf[i].style.display = "inline";
-}
-'>
-Click Me!</button> 
-<br>
-
-<button class = 'hidden' style="display:none" onclick='document.getElementById("demo").innerHTML = "hi"'>Go Back!</button> <br><br>
-<button class = 'hidden' style="display:none" onclick='change_green();'>Green!</button> <br>
-<button class = 'hidden' style="display:none" onclick='document.getElementById("demo").style.color = "black"'>Black!</button> <br>
-
-<p id="greencounter"> Number of times green has been clicked: 0 </p>
-<p id="usefulgreencounter"> Number of times colour has been changed to green successfully: 0 </p>
-
-</div>
 </body>
-
 
 </html>
