@@ -25,25 +25,14 @@ function Encounter(number) {
 	this.encounters = number;
 }
 
-function addEnemy(stage, enemyString, number) {
+function addThingToList(targetList, thingString, number) {
 	//if we've seen this enemy before, add to their count
-	if (enemyString in stage.enemyList) {
-		stage.enemyList[enemyString] += number;
+	if (thingString in targetList) {
+		targetList[thingString] += number;
 	}
 	//otherwise, make a new entry for them
 	else {
-		stage.enemyList[enemyString] = number;
-	}
-}
-
-function addItem(stage, itemString, number) {
-	//if we've seen this enemy before, add to their count
-	if (itemString in stage.itemList) {
-		stage.itemList[itemString] += number;
-	}
-	//otherwise, make a new entry for them
-	else {
-		stage.itemList[itemString] = number;
+		targetList[thingString] = number;
 	}
 }
 
@@ -58,49 +47,98 @@ function addEncounter(stage, enemyString, number) {
 	}
 }
 
-function processEncounter(stage, enemyGang, itemDrops) {
-	stage.totalEncounters += 1;
-	//what is the string of this enemy group?
+function addToCurrent(thingString, targetArray, number){
+	let needToAdd = true;
+	for (let i = 0; i < targetArray.length; i++) {
+		if (targetArray[i].name == thingString){
+			targetArray[i].number += number;
+			needToAdd = false;
+			break;
+		}
+	}
+	if (needToAdd == true){
+		targetArray.push({name:thingString, number:number});
+	}
+	updateLists();	
+}
+
+function updateLists(){
+	if (currentGang=="") {
+		document.getElementById("gangList").innerHTML=" (add enemies from current encounter) ";
+	}
+	else {
+		document.getElementById("gangList").innerHTML=getString(currentGang);
+	}
+	if (currentDrops=="") {
+		document.getElementById("dropList").innerHTML=" (add item drops from current encounter) ";
+	}
+	else {
+		document.getElementById("dropList").innerHTML=getString(currentDrops);
+	}
+}
+
+function sortThingsByName(a,b){
+	if (a.name < b.name){return -1};
+	if (a.name > b.name){return 1};
+	return 0;
+}
+
+function getString(enemyGang){
 	let enemyString = ""; //start with a blank
+	enemyGang.sort(sortThingsByName);
 	for (let i = 0; i < enemyGang.length; i++) {
 		if (enemyString != "") 
 			{enemyString+=", "}
 		enemyString += enemyGang[i].name + " x" + enemyGang[i].number;
-		addEnemy(stage,enemyGang[i].name,enemyGang[i].number);
 	}
-	//add this meeting to the encounter list
+	return enemyString;
+}
+
+function processEncounter(stage, enemyGang, itemDrops) {
+	stage.totalEncounters += 1;
+
+	let enemyString = getString(enemyGang);
+	
+	for (let i = 0; i < enemyGang.length; i++) {
+		addThingToList(stage.enemyList, enemyGang[i].name, enemyGang[i].number);
+	}
+	for (let i = 0; i < itemDrops.length; i++) {
+		addThingToList(stage.itemList, itemDrops[i].name, itemDrops[i].number);
+	}
+	
 	addEncounter(stage, enemyString, 1);
+
 	let encounter = stage.encounterList[enemyString];
-	//add the items gotten to the encounter entry
+	
 	for (let i = 0; i < itemDrops.length; i++) {
 		let itemString = itemDrops[i].name + " x" + itemDrops[i].number.toString();
 		if (itemString in encounter)
 			{encounter[itemString] += 1}
 		else 
 			{encounter[itemString] = 1}
-		addItem(stage,itemDrops[i].name,itemDrops[i].number);
+		addThingToList(stage.itemList, itemDrops[i].name, itemDrops[i].number);
 	}
+}
 
-
+function submit(){
+	if (currentGang.length>0 && currentDrops.length>0){
+		processEncounter(stage1,currentGang,currentDrops); 
+		currentGang.length=0; 
+		currentDrops.length=0; 
+		updateLists();
+	}
+	else{
+		alert("Please enter enemies and item drops")
+	}
 }
 
 const stage1 = new Stage();
-//stage1.enemyList
-
-
-currentGang=[];
-currentGang[0]={name: "Silky Webwing", number: 14}
-currentGang[1]={name: "Mith Bruiser", number: 1}
-
-currentDrops=[];
-currentDrops[0]={name: "Kokiri Sword", number: 1}
-currentDrops[1]={name: "2x1 flat", number: 1}
-
-processEncounter(stage1, currentGang, currentDrops);
-
+const currentGang=[];
+const currentDrops=[];
 
 //output_json = JSON.stringify(stage1)
 //stage2=JSON.parse(output_json)
+
 
 </script>
 
@@ -109,7 +147,28 @@ processEncounter(stage1, currentGang, currentDrops);
 
 
 <div class="main">
-<p> It's kind of working but you can only see it in the console.</p>
+
+
+<h3> enemies </h3>
+<div id="gangList" style="min-height:32px"> (add enemies from current encounter) </div>
+
+<button onclick='addToCurrent("Enemy1", currentGang, 1)'> Enemy 1 </button> <br>
+<button onclick='addToCurrent("Enemy2", currentGang, 1)'> Enemy 2 </button> <br>
+<button onclick='addToCurrent("Enemy3", currentGang, 1)'> Enemy 3 </button> <br>
+<button onclick='addToCurrent("Enemy4", currentGang, 1)'> Enemy 4 </button> <br>
+<button onclick='addToCurrent("Enemy5", currentGang, 1)'> Enemy 5 </button> <br><br>
+
+<h3> items </h3>
+<div id="dropList" style="min-height:32px"> (add item drops from current encounter) </div>
+
+<button onclick='addToCurrent("Item1", currentDrops, 1)'> Item 1 </button> <br>
+<button onclick='addToCurrent("Item2", currentDrops, 1)'> Item 2 </button> <br>
+<button onclick='addToCurrent("Item3", currentDrops, 1)'> Item 3 </button> <br>
+<button onclick='addToCurrent("Item4", currentDrops, 1)'> Item 4 </button> <br>
+<button onclick='addToCurrent("Item5", currentDrops, 1)'> Item 5 </button> <br><br>
+
+<button onclick='submit()'> SUBMIT => </button>
+
 </div>
 
 </body>
