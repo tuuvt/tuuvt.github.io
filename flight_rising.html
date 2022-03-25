@@ -1,52 +1,117 @@
-<html>
-<head> <title>Flight Rising Encounter Counter</title> </head>
+<!DOCTYPE html>
 
-<body>
+<html>
+<head> 
+<title>Flight Rising Encounter Counter</title> 
+<style>
+div.main{width:50%; margin:auto; border-style:solid; border-width:1px; padding:40px}
+</style>
+</head>
 
 <script>
-var greencount = 0;
-var usefulgreencount = 0;
-const greenstring = "Number of times green has been clicked: ";
-const usefulgreenstring = "Number of times colour has been changed to green successfully: ";
 
-function update_green_counters() {
-	document.getElementById("greencounter").innerHTML = greenstring + greencount.toString();
-	document.getElementById("usefulgreencounter").innerHTML = usefulgreenstring + usefulgreencount.toString();
+function Stage() {
+	this.totalEnemies = 0;
+	this.enemyList = {};
+	//
+	this.totalItems = 0;
+	this.itemList = {};
+	//
+	this.totalEncounters = 0;
+	this.encounterList = {};
 }
 
-function change_green(){
-	var greentext = document.getElementById("demo");
-	
-	greencount+=1;
-	if (greentext.style.color != "green") {usefulgreencount+=1}
-	
-	greentext.style.color = "green"; 
-	update_green_counters()
+function Encounter(number) {
+	this.encounters = number;
 }
+
+function addEnemy(stage, enemyString, number) {
+	//if we've seen this enemy before, add to their count
+	if (enemyString in stage.enemyList) {
+		stage.enemyList[enemyString] += number;
+	}
+	//otherwise, make a new entry for them
+	else {
+		stage.enemyList[enemyString] = number;
+	}
+}
+
+function addItem(stage, itemString, number) {
+	//if we've seen this enemy before, add to their count
+	if (itemString in stage.itemList) {
+		stage.itemList[itemString] += number;
+	}
+	//otherwise, make a new entry for them
+	else {
+		stage.itemList[itemString] = number;
+	}
+}
+
+function addEncounter(stage, enemyString, number) {
+	//if we've seen this combo of enemies before, add to their count
+	if (enemyString in stage.encounterList) {
+		stage.encounterList[enemyString].encounters += number;
+	}
+	//otherwise, make a new entry for them
+	else {
+		stage.encounterList[enemyString] = new Encounter(number);
+	}
+}
+
+function processEncounter(stage, enemyGang, itemDrops) {
+	stage.totalEncounters += 1;
+	//what is the string of this enemy group?
+	let enemyString = ""; //start with a blank
+	for (let i = 0; i < enemyGang.length; i++) {
+		if (enemyString != "") 
+			{enemyString+=", "}
+		enemyString += enemyGang[i].name + " x" + enemyGang[i].number;
+		addEnemy(stage,enemyGang[i].name,enemyGang[i].number);
+	}
+	//add this meeting to the encounter list
+	addEncounter(stage, enemyString, 1);
+	let encounter = stage.encounterList[enemyString];
+	//add the items gotten to the encounter entry
+	for (let i = 0; i < itemDrops.length; i++) {
+		let itemString = itemDrops[i].name + " x" + itemDrops[i].number.toString();
+		if (itemString in encounter)
+			{encounter[itemString] += 1}
+		else 
+			{encounter[itemString] = 1}
+		addItem(stage,itemDrops[i].name,itemDrops[i].number);
+	}
+
+
+}
+
+const stage1 = new Stage();
+//stage1.enemyList
+
+
+currentGang=[];
+currentGang[0]={name: "Silky Webwing", number: 14}
+currentGang[1]={name: "Mith Bruiser", number: 1}
+
+currentDrops=[];
+currentDrops[0]={name: "Kokiri Sword", number: 1}
+currentDrops[1]={name: "2x1 flat", number: 1}
+
+processEncounter(stage1, currentGang, currentDrops);
+
+
+//output_json = JSON.stringify(stage1)
+//stage2=JSON.parse(output_json)
+
 </script>
+
+<body>
 <br><br>
-<div style="width:50%; margin:auto; border-style:solid; border-width:1px; padding:40px">
-<p id="demo"> hi </p>
 
-<button onclick=
-'
-document.getElementById("demo").innerHTML = "Hello JavaScript!"; 
-const listf = document.getElementsByClassName("hidden");
-for (let i = 0; i < listf.length; i++) {
-  listf[i].style.display = "inline";
-}
-'>
-Click Me!</button> 
-<br>
 
-<button class = 'hidden' style="display:none" onclick='document.getElementById("demo").innerHTML = "hi"'>Go Back!</button> <br><br>
-<button class = 'hidden' style="display:none" onclick='change_green();'>Green!</button> <br>
-<button class = 'hidden' style="display:none" onclick='document.getElementById("demo").style.color = "black"'>Black!</button> <br>
-
-<p id="greencounter"> Number of times green has been clicked: 0 </p>
-<p id="usefulgreencounter"> Number of times colour has been changed to green successfully: 0 </p>
-
+<div class="main">
+<p> It's kind of working but you can only see it in the console.</p>
 </div>
+
 </body>
 
 
