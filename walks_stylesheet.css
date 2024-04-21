@@ -1,0 +1,49 @@
+body {
+	width:90%;
+	margin:auto;
+	background-color:#414900; 
+	font-family: Georgia, "Bitstream Charter", serif; 
+}
+#main {
+	margin-bottom:24px;
+	background-color:white;
+	padding-bottom:24px;
+	padding-top:20px;
+}
+p {padding-left:12px;}
+h1 {padding:12px;}
+a {display:inline-block}
+#navigation {
+	background-color:black;
+	color:white;
+	position:sticky;
+	top:0;
+	padding:6px;
+}
+#navigation a, #navigation a:visited{
+	color:white;
+}
+#navigation a:hover, #navigation a:active {
+	color:#20ff80;
+}
+
+
+@media screen and (orientation:portrait) {
+	body {
+		font-size:4vw;
+		}
+	#navigation a {
+		margin-top:12px;
+		}
+	#navigation {
+		padding-top:0;
+		padding-bottom:2px;
+		}
+	h1 {
+		font-size: 1.2em;
+		}
+}
+
+@media (orientation: portrait) {
+
+}
