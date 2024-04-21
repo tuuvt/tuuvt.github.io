@@ -17,11 +17,11 @@ a {display:inline-block}
 	background-color:black;
 	color:white;
 	position:sticky;
-	top:0;
+	top:0px;
 	padding:6px;
 }
 #navigation a, #navigation a:visited{
-	color:white;
+	color:white; margin-right:20px
 }
 #navigation a:hover, #navigation a:active {
 	color:#20ff80;
